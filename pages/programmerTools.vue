@@ -1,16 +1,14 @@
 <template>
     <div class="wrap">
-        <el-col :span="6" style="padding-right: 20px">
-            <h5>自定义颜色</h5>
+        <el-col :span="6" style="padding-right: 30px">
             <el-menu
                 default-active="2"
                 class="el-menu-vertical-demo"
-                @open="handleOpen"
-                @close="handleClose"
                 background-color="#545c64"
                 text-color="#fff"
-                active-text-color="#ffd04b">
-                <el-submenu index="1">
+                active-text-color="#ffd04b"
+                @select="select">
+                <!--<el-submenu index="1">
                     <template slot="title">
                         <i class="el-icon-location"></i>
                         <span>导航一</span>
@@ -27,22 +25,28 @@
                         <template slot="title">选项4</template>
                         <el-menu-item index="1-4-1">选项1</el-menu-item>
                     </el-submenu>
-                </el-submenu>
-                <el-menu-item index="2">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">导航二</span>
+                </el-submenu>-->
+                <el-menu-item index="uuid">
+                    <!-- <i class="el-icon-menu"></i>-->
+                    <span slot="title">UUID生成</span>
                 </el-menu-item>
-                <el-menu-item index="3" disabled>
-                    <i class="el-icon-document"></i>
-                    <span slot="title">导航三</span>
+                <el-menu-item index="jsonFormat">
+                    <!-- <i class="el-icon-document"></i>-->
+                    <span slot="title">JSON格式化</span>
                 </el-menu-item>
                 <el-menu-item index="4">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">导航四</span>
+                    <!-- <i class="el-icon-setting"></i>-->
+                    <span slot="title">UNIX时间戳转换</span>
+                </el-menu-item>
+                <el-menu-item index="5">
+                    <span slot="title">HASH计算/MD5/SHA</span>
+                </el-menu-item>
+                <el-menu-item index="5">
+                    <span slot="title">ASCII码表</span>
                 </el-menu-item>
             </el-menu>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="18" style="background: #fafafa; padding: 15px 22px;">
             <nuxt-child></nuxt-child>
         </el-col>
     </div>
@@ -55,7 +59,11 @@
         data() {
             return {}
         },
-        methods: {},
+        methods: {
+            select(index, path, menuItem) {
+                this.$router.push('/programmerTools/' + index)
+            }
+        },
         created() {
         },
         mounted() {

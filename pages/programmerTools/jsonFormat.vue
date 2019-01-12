@@ -1,5 +1,6 @@
 <template>
     <div>
+        json format
     </div>
 </template>
 <script>

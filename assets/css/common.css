@@ -1,5 +1,5 @@
 .page-enter-active, .page-leave-active {
-    transition: opacity .5s;
+    transition: opacity .2s;
 }
 .page-enter, .page-leave-active {
     opacity: 0;
@@ -9,6 +9,7 @@
     width: 100%;
     max-width: 1300px;
     margin: 0 auto;
+    font-family: Consolas;
 }
 .navbar {
     height: 55px;
@@ -17,6 +18,7 @@
     clear: both;
     border-bottom: 4px solid #03A9F4;
     width: 100%;
+    margin-bottom: 15px;
 }
 .navbar .nav {
     position: relative;
