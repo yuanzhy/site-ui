@@ -44,6 +44,9 @@
     display: block;
     text-decoration: none;
 }
+.el-form-item {
+    margin-bottom: 12px;
+}
 
 
 

@@ -22,7 +22,7 @@ module.exports = {
         script: [
             /*{src: 'https://unpkg.com/muse-ui@3.0.1/dist/muse-ui.js'}*/
             {src: 'https://unpkg.com/element-ui@2.4.11/lib/index.js'},
-            {src: 'https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js'},
+            // {src: 'https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js'},
         ]
     },
 

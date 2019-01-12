@@ -26,10 +26,9 @@
     </div>
 </template>
 <script>
-    import ElInputNumber from "../../node_modules/element-ui/packages/input-number/src/input-number";
     export default {
         name: '',
-        components: {ElInputNumber},
+        components: {},
         data() {
             return {
                 number: 5,
