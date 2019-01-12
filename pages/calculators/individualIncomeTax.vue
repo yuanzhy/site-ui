@@ -1,7 +1,7 @@
 <template>
     <el-row class="iil">
         <el-col :span="12" style="">
-            <el-form ref="form" :model="form" label-width="115px">
+            <el-form ref="form" :model="form" :rules="rules" label-width="115px">
                 <el-form-item label="收入类型">
                     <el-radio-group v-model="form.type">
                         <el-radio label="1">月薪</el-radio>
@@ -133,7 +133,12 @@
                     shengyu: null,
                     gongjijin: null,
                 },
-                rules: []
+                rules: {
+                    yuexin: [ // TODO 未生效
+                        { required: true, message: '月薪不能为空'},
+                        { type: 'number', message: '月薪必须为数字'}
+                    ]
+                }
             }
         },
         computed: {
@@ -145,21 +150,30 @@
                 const shengyu = this.result.shengyu || 0
                 const gongjijin = this.result.gongjijin || 0
                 return (yanglao + yiliao + shiye + gongshang + shengyu + gongjijin)
-            }
+            },
         },
         methods: {
             calculate() {
-                if (this.form.type === '1') {
-                    this.calc1();
-                } else if (this.form.type === '2') {
-                    this.calc2();
-                }
+//                this.$refs['form'].validate((valid) => {
+//                    if (valid) {
+                        if (this.form.type === '1') {
+                            this.calc1();
+                        } else if (this.form.type === '2') {
+                            this.calc2();
+                        }
+//                    }
+//                })
+
             },
             calc1() {
+                if (!this.form.yuexin) {
+                    this.$message.warning('月薪不能为空')
+                    return
+                }
                 this.resetResult()
                 this.result.shuiqianshouru = this.form.yuexin
                 // 五险
-                const wuxian = (this.form.yuexin-this.form.buzhu) * this.form.wuxianbili / 100
+                const wuxian = (this.form.yuexin - this.form.buzhu) * this.form.wuxianbili / 100
                 this.result.yanglao = (wuxian * this.form.yanglao / 100)
                 this.result.yiliao = (wuxian * this.form.yiliao / 100)
                 this.result.shiye = (wuxian * this.form.shiye / 100)
@@ -171,6 +185,8 @@
                 const jishui = this.form.yuexin - 5000 - this.form.kouchu - this.wuxianyijinzongji
                 this.result.jishui = jishui
                 if (jishui <= 0) {
+                    this.result.jishui = 0
+                    this.result.shuilv = '--'
 //                    this.$message.info("您的收入达不到税收要求。");
                 } else if (0 < jishui && jishui <= 3000) {
                     this.result.geshui = 0.03 * jishui - 0;
@@ -198,6 +214,10 @@
                 this.result.daoshou = this.form.yuexin - this.result.geshui - this.wuxianyijinzongji
             },
             calc2() {
+                if (!this.form.jiangjin) {
+                    this.$message.warning('奖金不能为空')
+                    return
+                }
                 this.result.shuiqianshouru = this.form.jiangjin
                 const jishui = this.form.jiangjin
                 this.result.jishui = jishui
@@ -244,6 +264,13 @@
                     shengyu: null,
                     gongjijin: null,
                 }
+            },
+            validateNumber(rule, value, callback) {
+                if (isNaN(value)) {
+                    callback(new Error('请填写有效数字'))
+                } else {
+                    callback()
+                }
             }
         },
         created() {
@@ -267,14 +294,17 @@
     .iil .el-input {
         width: 160px;
     }
+
     .result_daoshou {
         font-size: 40px;
         color: #ff4500;
     }
+
     .result_daoshou span {
         font-size: 16px;
         margin-left: 5px;
     }
+
     hr {
         margin-bottom: 10px;
         width: 330px;
