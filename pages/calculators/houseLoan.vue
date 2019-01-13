@@ -54,6 +54,7 @@
                     <el-date-picker
                         v-model="form.schkrq"
                         type="date"
+                        :clearable="false"
                         placeholder="首次还款日期">
                     </el-date-picker>
                 </el-form-item>
