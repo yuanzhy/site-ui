@@ -18,13 +18,13 @@ module.exports = {
             /*{rel: 'stylesheet', href: 'https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css'},
             {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/muse-ui@3.0.1/dist/muse-ui.css'}*/
             // {rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/element-ui@2.4.11/lib/theme-chalk/index.css'}
-            // {rel: 'stylesheet', type: 'text/css', href: 'https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css'}
+            {rel: 'stylesheet', href: 'https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css'}
         ],
         script: [
             /*{src: 'https://unpkg.com/muse-ui@3.0.1/dist/muse-ui.js'}*/
             // {src: 'https://unpkg.com/element-ui@2.4.11/lib/index.js'},
             // {src: 'https://cdn.bootcss.com/element-ui/2.4.11/index.js'},
-            // {src: 'https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js'},
+            /*{src: 'https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js'},*/
         ]
     },
 
@@ -68,7 +68,7 @@ module.exports = {
         plugins: [
             new webpack.ProvidePlugin({
                 // 'muse-ui': 'MuseUI'
-                // 'element-ui': 'ELEMENT'
+                'element-ui': 'ELEMENT'
             })
         ],
         /*
@@ -76,6 +76,7 @@ module.exports = {
          */
         extend(config, ctx) {
 
-        }
+        },
+        // vendor:['element-ui']
     }
 }
