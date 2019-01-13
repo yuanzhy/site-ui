@@ -34,7 +34,7 @@
                     <!-- <i class="el-icon-document"></i>-->
                     <span slot="title">JSON格式化</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="timestamp">
                     <!-- <i class="el-icon-setting"></i>-->
                     <span slot="title">UNIX时间戳转换</span>
                 </el-menu-item>
@@ -43,6 +43,9 @@
                 </el-menu-item>
                 <el-menu-item index="5">
                     <span slot="title">ASCII码表</span>
+                </el-menu-item>
+                <el-menu-item index="cron">
+                    <span slot="title">cron表达式</span>
                 </el-menu-item>
             </el-menu>
         </el-col>
