@@ -45,7 +45,7 @@
     text-decoration: none;
 }
 .el-form-item {
-    margin-bottom: 12px;
+    margin-bottom: 12px !important;
 }
 
 

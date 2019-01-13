@@ -213,7 +213,7 @@
                     this.result.geshui = 0.45 * jishui - 15160;
                     this.result.shuilv = '45%'
                 }
-                this.result.geshui = Math.round(this.result.geshui, 2)
+                this.result.geshui = this.result.geshui.toFixed(2)
                 this.result.daoshou = this.form.yuexin - this.result.geshui - this.wuxianyijinzongji
             },
             calc2() {
@@ -300,7 +300,7 @@
     .iil .tips {
         font-size: 12px;
         position: absolute;
-        top: 30px;
+        top: 26px;
         color: orange;
     }
     .result_daoshou {
