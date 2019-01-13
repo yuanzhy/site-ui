@@ -60,7 +60,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="calculate">计算</el-button>
-                    <el-button type="info" @click="reset">重置</el-button>
+                    <el-button type="info" @click="reset" v-if="!$store.state.mobile">重置</el-button>
                 </el-form-item>
             </el-form>
         </el-col>

@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form ref="form" :model="form" label-width="80px" class="timestamp">
         <el-form-item label="当前时间:">
             <!--<el-tag @click="copyNow">{{result.now}}</el-tag>-->
             <el-button @click="copyNow">{{result.now}}</el-button>
@@ -7,44 +7,28 @@
             <el-button @click="stopTimer" v-show="timer">停止</el-button>
         </el-form-item>
         <el-form-item label="时间戳:">
-            <el-col :span="6">
-                <el-input v-model="form.timestamp1"></el-input>
-            </el-col>
-            <el-col :span="2">
-                <el-select v-model="form.type1">
-                    <el-option label="秒" value="second"></el-option>
-                    <el-option label="毫秒" value="millisecond"></el-option>
-                </el-select>
-            </el-col>
-            <el-col :span="3">
-                <el-button type="primary" @click="transform">转换&gt;&gt;</el-button>
-            </el-col>
-            <el-col :span="6">
-                <el-input v-model="form.date1"></el-input>
-            </el-col>
+            <el-input v-model="form.timestamp1"></el-input>
+            <el-select v-model="form.type1">
+                <el-option label="秒" value="second"></el-option>
+                <el-option label="毫秒" value="millisecond"></el-option>
+            </el-select>
+            <el-button type="primary" @click="transform">转换&gt;&gt;</el-button>
+            <el-input v-model="form.date1"></el-input>
         </el-form-item>
         <el-form-item label="时间:">
-            <el-col :span="6">
-                <el-date-picker
-                    v-model="form.date2"
-                    type="datetime"
-                    placeholder="选择日期时间"
-                    align="right"
-                    :picker-options="pickerOptions1">
-                </el-date-picker>
-            </el-col>
-            <el-col :span="3">
-                <el-button type="primary" @click="transform2">转换&gt;&gt;</el-button>
-            </el-col>
-            <el-col :span="6">
-                <el-input v-model="form.timestamp2"></el-input>
-            </el-col>
-            <el-col :span="2">
-                <el-select v-model="form.type2">
-                    <el-option label="秒" value="second"></el-option>
-                    <el-option label="毫秒" value="millisecond"></el-option>
-                </el-select>
-            </el-col>
+            <el-date-picker
+                v-model="form.date2"
+                type="datetime"
+                placeholder="选择日期时间"
+                align="right"
+                :picker-options="pickerOptions1">
+            </el-date-picker>
+            <el-button type="primary" @click="transform2">转换&gt;&gt;</el-button>
+            <el-input v-model="form.timestamp2"></el-input>
+            <el-select v-model="form.type2">
+                <el-option label="秒" value="second"></el-option>
+                <el-option label="毫秒" value="millisecond"></el-option>
+            </el-select>
         </el-form-item>
     </el-form>
 </template>
@@ -66,7 +50,14 @@
                 result: {
                     now: ''
                 },
-                pickerOptions1: {
+            }
+        },
+        computed: {
+            pickerOptions1() {
+                if (this.$store.state.mobile) {
+                    return {}
+                }
+                return {
                     shortcuts: [{
                         text: '今天',
                         onClick(picker) {
@@ -95,7 +86,7 @@
                 let timestamp = this.form.timestamp1 + ''
                 timestamp = timestamp.replace(/^\s+|\s+$/, '')
                 if (!/^\d+$/.test(timestamp)) {
-                    alert('时间戳格式不正确')
+                    this.$message.warning('时间戳格式不正确')
                     return
                 }
                 timestamp *= 1
@@ -106,7 +97,7 @@
             },
             transform2() {
                 if (this.form.date2 == '') {
-                    alert('请选择时间')
+                    this.$message.warning('请选择时间')
                     return
                 }
                 var time = new Date(this.form.date2)
@@ -119,7 +110,7 @@
             timestamp_now() {
                 var _this = this
                 let now = Math.round(new Date() / 1000)
-                this.timer = setInterval(function() {
+                this.timer = setInterval(function () {
                     var now = Math.round(new Date() / 1000)
                     _this.result.now = now
                 }, 1000)
@@ -139,6 +130,34 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .timestamp .el-input {
+        width: 35%;
 
+    }
+
+    .timestamp .el-select {
+        width: 15%;
+    }
+
+    .timestamp .el-select .el-input {
+        width: 100%;
+    }
+
+    .mobile .timestamp .el-input {
+        width: 63%;
+        margin-bottom: 5px;
+    }
+
+    .mobile .timestamp .el-select {
+        width: 30%;
+    }
+
+    .mobile .timestamp .el-select .el-input {
+        width: 100%;
+    }
+
+    .mobile .timestamp .el-button--primary {
+        width: 30%;
+    }
 </style>

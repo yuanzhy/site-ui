@@ -37,7 +37,7 @@
                     <el-form-item label="公积金">
                         <el-input v-model.number="form.gongjijin"><span slot="suffix">%</span></el-input>
                     </el-form-item>
-                    <hr>
+                    <hr v-show="!$store.state.mobile">
                     <el-form-item label="五险缴费比例">
                         <el-input v-model.number="form.wuxianbili"><span slot="suffix">%</span></el-input>
                         <div class="tips">按照薪资的百分之几缴纳</div>
@@ -52,10 +52,11 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="calculate">计算</el-button>
-                    <el-button type="info" @click="reset">重置</el-button>
+                    <el-button type="info" @click="reset" v-if="!$store.state.mobile">重置</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
+        <hr v-show="result.daoshou && $store.state.mobile">
         <el-col :span="12" v-show="result.daoshou">
             <el-form ref="result" :model="result" label-width="115px">
                 <el-form-item label="到手所得">
@@ -302,6 +303,7 @@
         position: absolute;
         top: 26px;
         color: orange;
+        min-width: 400px;
     }
     .result_daoshou {
         font-size: 40px;

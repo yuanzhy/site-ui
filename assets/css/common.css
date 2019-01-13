@@ -47,6 +47,42 @@
 .el-form-item {
     margin-bottom: 12px !important;
 }
+.wrap .left-nav {
+    padding-right: 30px;
+}
+.wrap .main {
+    background: #fafafa;
+    padding: 15px 22px;
+}
+.mobile {
+    overflow: hidden;
+    padding-top: 55px;
+}
+.mobile .navbar {
+    margin-bottom: 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    padding-left: 7px;
+}
+.mobile .wrap .left-nav {
+    position: absolute;
+    width: auto;
+    z-index: 100;
+}
+.mobile .wrap .main{
+    width: 100%;
+    padding: 8px 10px;
+}
+.mobile .mobile-nav {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 14px;
+    left: 12px;
+    background: url(../images/menu.png) center center no-repeat;
+    background-size: 24px;
+}
 
 
 

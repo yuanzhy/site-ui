@@ -1,8 +1,8 @@
 <template>
     <div class="wrap">
-        <el-col :span="6" style="padding-right: 30px">
+        <el-col :span="6" class="left-nav" v-show="$store.state.nav">
             <el-menu
-                default-active="2"
+                default-active="individualIncomeTax"
                 class="el-menu-vertical-demo"
                 background-color="#545c64"
                 text-color="#fff"
@@ -46,7 +46,7 @@
                 </el-menu-item>
             </el-menu>
         </el-col>
-        <el-col :span="18" style="background: #fafafa; padding: 15px 22px;">
+        <el-col :span="18" class="main">
             <nuxt-child></nuxt-child>
         </el-col>
     </div>
@@ -60,13 +60,15 @@
         },
         methods: {
             select(index, path, menuItem) {
+                this.$store.commit('hideNav')
                 this.$router.push('/calculators/' + index)
             }
         },
         created() {
         },
         mounted() {
-        }
+            this.$router.push('/calculators/individualIncomeTax')
+        },
     }
 </script>
 <style>
