@@ -1,7 +1,7 @@
 <template>
     <el-row class="iil">
         <el-col :span="12" style="">
-            <el-form ref="form" :model="form" :rules="rules" label-width="115px">
+            <el-form ref="form" :model="form" :rules="rules" label-width="125px">
                 <el-form-item label="收入类型">
                     <el-radio-group v-model="form.type">
                         <el-radio label="1">月薪</el-radio>
@@ -12,8 +12,9 @@
                     <el-form-item label="税前月薪">
                         <el-input v-model.number="form.yuexin"><span slot="suffix">元</span></el-input>
                     </el-form-item>
-                    <el-form-item label="年功薪资+补助" title="此项不计算五险一金">
+                    <el-form-item label="不记五险一金部分">
                         <el-input v-model.number="form.buzhu"><span slot="suffix">元</span></el-input>
+                        <div class="tips">如年功薪资，补助等不参与计算五险一金</div>
                     </el-form-item>
                     <el-form-item label="专项附加扣除">
                         <el-input v-model.number="form.kouchu"><span slot="suffix">元</span></el-input>
@@ -37,11 +38,13 @@
                         <el-input v-model.number="form.gongjijin"><span slot="suffix">%</span></el-input>
                     </el-form-item>
                     <hr>
-                    <el-form-item label="五险缴费比例" title="按照薪资的百分比数缴纳">
+                    <el-form-item label="五险缴费比例">
                         <el-input v-model.number="form.wuxianbili"><span slot="suffix">%</span></el-input>
+                        <div class="tips">按照薪资的百分之几缴纳</div>
                     </el-form-item>
                     <el-form-item label="公积金缴费金额">
                         <el-input v-model.number="form.gongjijinjine"><span slot="suffix">元</span></el-input>
+                        <div class="tips">公积金可能不是全额缴纳, 在此指定实际金额</div>
                     </el-form-item>
                 </div>
                 <el-form-item v-show="form.type === '2'" label="税前奖金">
@@ -294,7 +297,12 @@
     .iil .el-input {
         width: 160px;
     }
-
+    .iil .tips {
+        font-size: 12px;
+        position: absolute;
+        top: 30px;
+        color: orange;
+    }
     .result_daoshou {
         font-size: 40px;
         color: #ff4500;
@@ -305,8 +313,8 @@
         margin-left: 5px;
     }
 
-    hr {
+    .iil hr {
         margin-bottom: 10px;
-        width: 330px;
+        width: 380px;
     }
 </style>
