@@ -38,10 +38,10 @@
                     <!-- <i class="el-icon-setting"></i>-->
                     <span slot="title">UNIX时间戳转换</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="hash">
                     <span slot="title">HASH计算/MD5/SHA</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="ascii">
                     <span slot="title">ASCII码表</span>
                 </el-menu-item>
                 <el-menu-item index="cron">
