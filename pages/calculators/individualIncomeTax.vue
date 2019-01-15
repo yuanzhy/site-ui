@@ -231,22 +231,22 @@
                     this.result.geshui = 0.03 * jishui - 0;
                     this.result.shuilv = '3%'
                 } else if (36000 < jishui && jishui <= 144000) {
-                    this.result.geshui = 0.1 * jishui - 210;
+                    this.result.geshui = 0.1 * jishui - 2520;
                     this.result.shuilv = '10%'
                 } else if (144000 < jishui && jishui <= 300000) {
-                    this.result.geshui = 0.2 * jishui - 1410;
+                    this.result.geshui = 0.2 * jishui - 16920;
                     this.result.shuilv = '20%'
                 } else if (300000 < jishui && jishui <= 420000) {
-                    this.result.geshui = 0.25 * jishui - 2660;
+                    this.result.geshui = 0.25 * jishui - 31920;
                     this.result.shuilv = '25%'
                 } else if (420000 < jishui && jishui <= 660000) {
-                    this.result.geshui = 0.3 * jishui - 4410;
+                    this.result.geshui = 0.3 * jishui - 52920;
                     this.result.shuilv = '30%'
                 } else if (660000 < jishui && jishui <= 960000) {
-                    this.result.geshui = 0.35 * jishui - 7160;
+                    this.result.geshui = 0.35 * jishui - 85920;
                     this.result.shuilv = '35%'
                 } else {
-                    this.result.geshui = 0.45 * jishui - 15160;
+                    this.result.geshui = 0.45 * jishui - 181920;
                     this.result.shuilv = '45%'
                 }
                 this.result.geshui = Math.round(this.result.geshui, 2)
