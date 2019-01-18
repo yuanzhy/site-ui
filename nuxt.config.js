@@ -44,6 +44,7 @@ module.exports = {
      */
     plugins: [
         '~/plugins/element-ui',
+        // '~/plugins/codeMirror',
         '~/plugins/extension'
     ],
 
