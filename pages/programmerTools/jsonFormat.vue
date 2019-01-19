@@ -1,17 +1,21 @@
 <template>
     <div class="json-format">
-        <!--<el-input type="textarea" :rows="15" v-model="json">
-        </el-input>-->
         <codemirror
             ref="myCm"
             :value="json"
             :options="cmOptions"
-            @change="change"
             class="code"
         ></codemirror>
-        <el-button type="primary" @click="formatJson">格式化</el-button>
-        <!--<el-button type="primary" @click="Process">着色</el-button>-->
-        <!--<div id="Canvas"></div>-->
+        <el-button type="primary" @click="format">格式化</el-button>
+        <label>缩进</label>
+        <el-select v-model="options.indent" placeholder="请选择">
+            <el-option :value="2"></el-option>
+            <el-option :value="4"></el-option>
+            <el-option :value="8"></el-option>
+        </el-select>
+        <el-button @click="compress">压缩</el-button>
+        <el-button @click="escape">转义</el-button>
+        <el-button @click="removeEscape">去除转义</el-button>
     </div>
 </template>
 <script>
@@ -26,7 +30,7 @@
         data() {
             return {
                 json: '',
-                options: {},
+                options: {indent: 2},
                 output: '',
                 colours: '',
                 cmOptions: {
@@ -42,22 +46,40 @@
             }
         },
         methods: {
-            change(a, b, c) {
-                debugger
+            compress(){
+                let json = this.codemirror.getValue()
+                this.json = json.replace(/[\s\t\r\n]/g, '')
             },
-            formatJson(options) {
+            escape(){
+                let json = this.codemirror.getValue()
+                this.json = json.replace(/"/g, '\\"')
+            },
+            removeEscape(){
+                let json = this.codemirror.getValue()
+                this.json = json.replace(/\\"/g, '"')
+            },
+            format() {
                 let json = this.codemirror.getValue()
                 if (!json) {
                     this.$message.warning('请输入json')
                     return
                 }
+                try {
+                    this.json = this.formatJson(json, this.options)
+                    this.codemirror.setValue(this.json)
+                } catch (error) {
+                    this.$message.error('json格式不正确')
+                    console.error(error)
+                }
+            },
+            formatJson(json, options) {
+                options = options || {}
                 var reg = null,
                     formatted = '',
                     pad = 0,
-                    PADDING = '    '
-                options = options || {}
-                options.newlineAfterColonIfBeforeBraceOrBracket = (options.newlineAfterColonIfBeforeBraceOrBracket === true) ? true : false
-                options.spaceAfterColon = (options.spaceAfterColon === false) ? false : true
+                    PADDING = ' '.repeat(options.indent || 2)
+//                options.newlineAfterColonIfBeforeBraceOrBracket = (options.newlineAfterColonIfBeforeBraceOrBracket === true) ? true : false
+//                options.spaceAfterColon = (options.spaceAfterColon === false) ? false : true
                 if (typeof json !== 'string') {
                     json = JSON.stringify(json)
                 } else {
@@ -107,9 +129,7 @@
                     formatted += padding + node + '\r\n'
                     pad += indent
                 })
-                this.json = formatted
-                this.codemirror.setValue(formatted)
-                // return formatted
+                 return formatted.trim()
             },
             //引用示例部分
             //(1)创建json格式或者从后台拿到对应的json格式
@@ -132,123 +152,122 @@
             //(3)将格式化好后的json写入页面中
             //document.getElementById("writePlace").innerHTML = '<pre>' +resultJson + '<pre/>';
 
-
-            //着色
-            //window.TAB = "    ";
-            IsArray(obj) {
-                return obj &&
-                    typeof obj === 'object' && typeof obj.length === 'number' && !(obj.propertyIsEnumerable('length'))
-            }
-            , Process() {
-                var json = this.json
-                console.log(json)
-                document.getElementById('Canvas').style.display = 'block'
-                var html = ''
-                try {
-                    if (json == '') {
-                        json = '""'
-                    }
-                    var obj = eval('[' + json + ']')
-                    html = this.ProcessObject(obj[0], 0, false, false, false)
-                    document.getElementById('Canvas').innerHTML = '<PRE class=\'CodeContainer\'>' + html + '</PRE>'
-                } catch (e) {
-                    alert('json语法错误，不能格式化。错误信息:\n' + e.message)
-                    document.getElementById('Canvas').innerHTML = ''
-                }
-            }
-            , ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
-                var html = ''
-                var comma = (addComma) ? '<span class=\'Comma\'>,</span> ' : ''
-                var type = typeof obj
-                if (this.IsArray(obj)) {
-                    if (obj.length == 0) {
-                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>[ ]</span>' + comma, isPropertyContent)
-                    } else {
-                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>[</span>', isPropertyContent)
-                        for (var i = 0; i < obj.length; i++) {
-                            html += this.ProcessObject(obj[i], indent + 1, i < (obj.length - 1), true, false)
-                        }
-                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>]</span>' + comma)
-                    }
-                } else {
-                    if (type == 'object' && obj == null) {
-                        html += this.FormatLiteral('null', '', comma, indent, isArray, 'Null')
-                    } else {
-                        if (type == 'object') {
-                            var numProps = 0
-                            for (var prop in obj) {
-                                numProps++
-                            }
-                            if (numProps == 0) {
-                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>{ }</span>' + comma, isPropertyContent)
-                            } else {
-                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>{</span>', isPropertyContent)
-                                var j = 0
-                                for (var prop in obj) {
-                                    html += this.GetRow(indent + 1, '<span class="PropertyName">"' + prop + '"</span>: ' + this.ProcessObject(obj[prop], indent + 1, ++j < numProps, false, true))
-                                }
-                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>}</span>' + comma)
-                            }
-                        } else {
-                            if (type == 'number') {
-                                html += this.FormatLiteral(obj, '', comma, indent, isArray, 'Number')
-                            } else {
-                                if (type == 'boolean') {
-                                    html += this.FormatLiteral(obj, '', comma, indent, isArray, 'Boolean')
-                                } else {
-                                    if (type == ',') {
-                                        obj = Format, (indent, obj)
-                                        html += this.FormatLiteral(obj, '', comma, indent, isArray, ',')
-                                    } else {
-                                        if (type == 'undefined') {
-                                            html += this.FormatLiteral('undefined', '', comma, indent, isArray, 'Null')
-                                        } else {
-                                            html += this.FormatLiteral(obj, '"', comma, indent, isArray, 'String')
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                return html
-            }
-
-            ,
-            FormatLiteral(literal, quote, comma, indent, isArray, style) {
-                if (typeof literal == 'string') {
-                    literal = literal.split('<').join('&lt;').split('>').join('&gt;')
-                }
-                var str = '<span class=\'' + style + '\'>' + quote + literal + quote + comma + '</span>'
-                if (isArray) {
-                    str = this.GetRow(indent, str)
-                }
-                return str
-            }
-            ,
-            Format(indent, obj) {
-                var tabs = ''
-                for (var i = 0; i < indent; i++) {
-                    tabs += window.TAB
-                }
-                var funcStrArray = obj.toString().split('\n')
-                var str = ''
-                for (var i = 0; i < funcStrArray.length; i++) {
-                    str += ((i == 0) ? '' : tabs) + funcStrArray[i] + '\n'
-                }
-                return str
-            }
-            ,
-            GetRow(indent, data, isPropertyContent) {
-                var tabs = ''
-                for (var i = 0; i < indent && !isPropertyContent; i++) {
-                    tabs += window.TAB
-                }
-                if (data != null && data.length > 0 && data.charAt(data.length - 1) != '\n') {
-                    data = data + '\n'
-                }
-                return tabs + data
-            }
+//            //着色
+//            //window.TAB = "    ";
+//            IsArray(obj) {
+//                return obj &&
+//                    typeof obj === 'object' && typeof obj.length === 'number' && !(obj.propertyIsEnumerable('length'))
+//            }
+//            , Process() {
+//                var json = this.json
+//                console.log(json)
+//                document.getElementById('Canvas').style.display = 'block'
+//                var html = ''
+//                try {
+//                    if (json == '') {
+//                        json = '""'
+//                    }
+//                    var obj = eval('[' + json + ']')
+//                    html = this.ProcessObject(obj[0], 0, false, false, false)
+//                    document.getElementById('Canvas').innerHTML = '<PRE class=\'CodeContainer\'>' + html + '</PRE>'
+//                } catch (e) {
+//                    alert('json语法错误，不能格式化。错误信息:\n' + e.message)
+//                    document.getElementById('Canvas').innerHTML = ''
+//                }
+//            }
+//            , ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
+//                var html = ''
+//                var comma = (addComma) ? '<span class=\'Comma\'>,</span> ' : ''
+//                var type = typeof obj
+//                if (this.IsArray(obj)) {
+//                    if (obj.length == 0) {
+//                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>[ ]</span>' + comma, isPropertyContent)
+//                    } else {
+//                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>[</span>', isPropertyContent)
+//                        for (var i = 0; i < obj.length; i++) {
+//                            html += this.ProcessObject(obj[i], indent + 1, i < (obj.length - 1), true, false)
+//                        }
+//                        html += this.GetRow(indent, '<span class=\'ArrayBrace\'>]</span>' + comma)
+//                    }
+//                } else {
+//                    if (type == 'object' && obj == null) {
+//                        html += this.FormatLiteral('null', '', comma, indent, isArray, 'Null')
+//                    } else {
+//                        if (type == 'object') {
+//                            var numProps = 0
+//                            for (var prop in obj) {
+//                                numProps++
+//                            }
+//                            if (numProps == 0) {
+//                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>{ }</span>' + comma, isPropertyContent)
+//                            } else {
+//                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>{</span>', isPropertyContent)
+//                                var j = 0
+//                                for (var prop in obj) {
+//                                    html += this.GetRow(indent + 1, '<span class="PropertyName">"' + prop + '"</span>: ' + this.ProcessObject(obj[prop], indent + 1, ++j < numProps, false, true))
+//                                }
+//                                html += this.GetRow(indent, '<span class=\'ObjectBrace\'>}</span>' + comma)
+//                            }
+//                        } else {
+//                            if (type == 'number') {
+//                                html += this.FormatLiteral(obj, '', comma, indent, isArray, 'Number')
+//                            } else {
+//                                if (type == 'boolean') {
+//                                    html += this.FormatLiteral(obj, '', comma, indent, isArray, 'Boolean')
+//                                } else {
+//                                    if (type == ',') {
+//                                        obj = Format, (indent, obj)
+//                                        html += this.FormatLiteral(obj, '', comma, indent, isArray, ',')
+//                                    } else {
+//                                        if (type == 'undefined') {
+//                                            html += this.FormatLiteral('undefined', '', comma, indent, isArray, 'Null')
+//                                        } else {
+//                                            html += this.FormatLiteral(obj, '"', comma, indent, isArray, 'String')
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                return html
+//            }
+//
+//            ,
+//            FormatLiteral(literal, quote, comma, indent, isArray, style) {
+//                if (typeof literal == 'string') {
+//                    literal = literal.split('<').join('&lt;').split('>').join('&gt;')
+//                }
+//                var str = '<span class=\'' + style + '\'>' + quote + literal + quote + comma + '</span>'
+//                if (isArray) {
+//                    str = this.GetRow(indent, str)
+//                }
+//                return str
+//            }
+//            ,
+//            Format(indent, obj) {
+//                var tabs = ''
+//                for (var i = 0; i < indent; i++) {
+//                    tabs += window.TAB
+//                }
+//                var funcStrArray = obj.toString().split('\n')
+//                var str = ''
+//                for (var i = 0; i < funcStrArray.length; i++) {
+//                    str += ((i == 0) ? '' : tabs) + funcStrArray[i] + '\n'
+//                }
+//                return str
+//            }
+//            ,
+//            GetRow(indent, data, isPropertyContent) {
+//                var tabs = ''
+//                for (var i = 0; i < indent && !isPropertyContent; i++) {
+//                    tabs += window.TAB
+//                }
+//                if (data != null && data.length > 0 && data.charAt(data.length - 1) != '\n') {
+//                    data = data + '\n'
+//                }
+//                return tabs + data
+//            }
 
 
         },
@@ -256,11 +275,32 @@
         }
         ,
         mounted() {
+        },
+        watch: {
+            json(newVal){
+                this.codemirror.setValue(newVal)
+            }
         }
     }
 </script>
 <style>
     .json-format .CodeMirror {
         height: 400px;
+
+    }
+    .json-format .code {
+        margin-bottom: 15px;
+    }
+    .json-format .el-select {
+        width: 70px;
+    }
+
+    .json-format .el-button + .el-button {
+        margin-left: 0;
+    }
+
+    .json-format .el-button--primary {
+        width: 100px;
+        margin-left: 30px;
     }
 </style>

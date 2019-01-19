@@ -2,7 +2,7 @@
     <div class="wrap">
         <el-col :span="6" class="left-nav" v-show="$store.state.nav">
             <el-menu
-                default-active="uuid"
+                default-active="jsonFormat"
                 class="el-menu-vertical-demo"
                 background-color="#545c64"
                 text-color="#fff"
@@ -26,13 +26,13 @@
                         <el-menu-item index="1-4-1">选项1</el-menu-item>
                     </el-submenu>
                 </el-submenu>-->
-                <el-menu-item index="uuid">
-                    <!-- <i class="el-icon-menu"></i>-->
-                    <span slot="title">UUID生成</span>
-                </el-menu-item>
                 <el-menu-item index="jsonFormat">
                     <!-- <i class="el-icon-document"></i>-->
                     <span slot="title">JSON格式化</span>
+                </el-menu-item>
+                <el-menu-item index="uuid">
+                    <!-- <i class="el-icon-menu"></i>-->
+                    <span slot="title">UUID生成</span>
                 </el-menu-item>
                 <el-menu-item index="timestamp">
                     <!-- <i class="el-icon-setting"></i>-->
@@ -40,6 +40,9 @@
                 </el-menu-item>
                 <el-menu-item index="hash">
                     <span slot="title">HASH计算/MD5/SHA</span>
+                </el-menu-item>
+                <el-menu-item index="unicode">
+                    <span slot="title">unicode转换</span>
                 </el-menu-item>
                 <el-menu-item index="ascii">
                     <span slot="title">ASCII码表</span>
@@ -71,7 +74,7 @@
         created() {
         },
         mounted() {
-            this.$router.push('/programmerTools/uuid')
+            this.$router.push('/programmerTools/jsonFormat')
         }
     }
 </script>

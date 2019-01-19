@@ -135,7 +135,7 @@
     </el-row>
 </template>
 <script>
-//    import ElOption from "../../node_modules/element-ui/packages/select/src/option";
+    //    import ElOption from "../../node_modules/element-ui/packages/select/src/option";
     export default {
         name: '',
         components: {},
@@ -179,8 +179,8 @@
                 },
                 rules: {
                     yuexin: [ // TODO 未生效
-                        { required: true, message: '月薪不能为空'},
-                        { type: 'number', message: '月薪必须为数字'}
+                        {required: true, message: '月薪不能为空'},
+                        {type: 'number', message: '月薪必须为数字'}
                     ]
                 }
             }
@@ -208,11 +208,11 @@
             calculate() {
 //                this.$refs['form'].validate((valid) => {
 //                    if (valid) {
-                        if (this.form.type === '1') {
-                            this.calc1();
-                        } else if (this.form.type === '2') {
-                            this.calc2();
-                        }
+                if (this.form.type === '1') {
+                    this.calc1();
+                } else if (this.form.type === '2') {
+                    this.calc2();
+                }
 //                    }
 //                })
 
@@ -236,7 +236,7 @@
                 //  个税 算法改为2019
 //                const jishui = this.form.yuexin - 5000 - this.form.kouchu - this.wuxianyijinzongji
                 // 额外计算累计应缴税款，已缴税款 2019
-                const prevJishui = this.form.leijiyuexin - this.form.yuexin - 5000 * (~~this.form.yuefen-1) - (this.form.leijikouchu-this.form.kouchu) - this.wuxianyijinzongji * (~~this.form.yuefen-1)
+                const prevJishui = this.form.leijiyuexin - this.form.yuexin - 5000 * (~~this.form.yuefen - 1) - (this.form.leijikouchu - this.form.kouchu) - this.wuxianyijinzongji * (~~this.form.yuefen - 1)
                 this.calcTaxRate(prevJishui)
                 this.result.yijiaogeshui = this.result.geshui // 已缴税款
                 const jishui = this.form.leijiyuexin - 5000 * ~~this.form.yuefen - this.form.leijikouchu - this.wuxianyijinzongji * ~~this.form.yuefen
@@ -302,8 +302,12 @@
             resetResult() {
                 this.result = {
                     daoshou: null,
-                    jishui: null,
-                    geshui: 0,
+                    jishui: 0,
+                    shuilv: 0,
+                    susuankouchushu: 0,
+                    leijigeshui: 0, // 累计应缴税款
+                    yijiaogeshui: 0, // 已缴税款
+                    geshui: 0, // 年终奖的个税 or 本月应补（退）税款
                     yanglao: null,
                     yiliao: null,
                     shiye: null,
@@ -350,6 +354,7 @@
     .iil .el-input {
         width: 160px;
     }
+
     .iil .tips {
         font-size: 12px;
         position: absolute;
@@ -357,6 +362,7 @@
         color: orange;
         min-width: 400px;
     }
+
     .result_daoshou {
         font-size: 40px;
         color: #ff4500;

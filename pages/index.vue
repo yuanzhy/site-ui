@@ -11,7 +11,7 @@
         components: {
         },
         created() {
-            this.$router.push('/programmerTools/uuid')
+            this.$router.push('/programmerTools/jsonFormat')
         }
     }
 </script>
