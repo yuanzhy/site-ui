@@ -28,7 +28,7 @@
                 </el-submenu>-->
                 <el-menu-item index="individualIncomeTax">
                     <!-- <i class="el-icon-menu"></i>-->
-                    <span slot="title">个税计算</span>
+                    <span slot="title">个税计算2019</span>
                 </el-menu-item>
                 <el-menu-item index="houseLoan">
                     <!-- <i class="el-icon-document"></i>-->
