@@ -97,7 +97,7 @@
 </script>
 <style>
     .hash .input {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         padding-right: 105px;
         position: relative;
     }

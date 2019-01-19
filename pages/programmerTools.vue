@@ -30,21 +30,20 @@
                     <!-- <i class="el-icon-document"></i>-->
                     <span slot="title">JSON格式化</span>
                 </el-menu-item>
-                <el-menu-item index="uuid">
-                    <!-- <i class="el-icon-menu"></i>-->
-                    <span slot="title">UUID生成</span>
-                </el-menu-item>
                 <el-menu-item index="base64">
                     <span slot="title">Base64转换</span>
-                </el-menu-item>
-                <el-menu-item index="hash">
-                    <span slot="title">HASH计算/MD5/SHA</span>
                 </el-menu-item>
                 <el-menu-item index="unicode">
                     <span slot="title">unicode转换</span>
                 </el-menu-item>
                 <el-menu-item index="ascii">
                     <span slot="title">ASCII码表</span>
+                </el-menu-item>
+                <el-menu-item index="uuid">
+                    <span slot="title">UUID生成</span>
+                </el-menu-item>
+                <el-menu-item index="hash">
+                    <span slot="title">HASH计算/MD5/SHA</span>
                 </el-menu-item>
                 <el-menu-item index="timestamp">
                     <!-- <i class="el-icon-setting"></i>-->
