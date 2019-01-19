@@ -34,9 +34,8 @@
                     <!-- <i class="el-icon-menu"></i>-->
                     <span slot="title">UUID生成</span>
                 </el-menu-item>
-                <el-menu-item index="timestamp">
-                    <!-- <i class="el-icon-setting"></i>-->
-                    <span slot="title">UNIX时间戳转换</span>
+                <el-menu-item index="base64">
+                    <span slot="title">Base64转换</span>
                 </el-menu-item>
                 <el-menu-item index="hash">
                     <span slot="title">HASH计算/MD5/SHA</span>
@@ -46,6 +45,10 @@
                 </el-menu-item>
                 <el-menu-item index="ascii">
                     <span slot="title">ASCII码表</span>
+                </el-menu-item>
+                <el-menu-item index="timestamp">
+                    <!-- <i class="el-icon-setting"></i>-->
+                    <span slot="title">UNIX时间戳转换</span>
                 </el-menu-item>
                 <el-menu-item index="cron">
                     <span slot="title">cron表达式</span>

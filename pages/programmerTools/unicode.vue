@@ -1,16 +1,18 @@
 <template>
     <div class="unicode">
-        <el-input type="textarea" v-model.trim="input" :rows="4"></el-input>
+        <el-input type="textarea" v-model.trim="input" :rows="5" placeholder="请输入..."></el-input>
         <div class="button-group">
             <el-button type="primary" @click="unicode2cn">Unicode转中文</el-button>
             <el-button type="primary" @click="cn2unicode">中文转Unicode</el-button>
+            <br v-if="$store.state.mobile">
+            <br v-if="$store.state.mobile">
             <label>处理英文</label>
             <el-select v-model="en" placeholder="请选择">
                 <el-option :value="true" label="是"></el-option>
                 <el-option :value="false" label="否"></el-option>
             </el-select>
         </div>
-        <el-input type="textarea" v-model="output" :rows="4"></el-input>
+        <el-input type="textarea" v-model="output" :rows="5" placeholder="结果是..."></el-input>
     </div>
 </template>
 <script>
