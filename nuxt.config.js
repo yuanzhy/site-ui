@@ -11,7 +11,8 @@ module.exports = {
         meta: [
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {hid: 'description', name: 'description', content: pkg.description}
+            {hid: 'description', name: 'description', content: '小工具集合,提供json在线格式化,uuid生成,base64编解码,unicode转换,MD5,SHA计算,个税计算器,房贷计算器,诉费计算器'},
+            {hid: 'keywords', name: 'keywords', content: '小工具集合,json格式化,uuid,base64,unicode,md5,个税计算器,房贷计算器,诉费计算器'}
         ],
         link: [
             {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
