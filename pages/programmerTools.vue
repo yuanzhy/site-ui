@@ -49,6 +49,9 @@
                     <!-- <i class="el-icon-setting"></i>-->
                     <span slot="title">UNIX时间戳转换</span>
                 </el-menu-item>
+                <el-menu-item index="sri">
+                    <span slot="title">SRI生成</span>
+                </el-menu-item>
                 <el-menu-item index="cron">
                     <span slot="title">cron表达式</span>
                 </el-menu-item>

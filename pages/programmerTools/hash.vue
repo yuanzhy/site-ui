@@ -41,6 +41,7 @@
     import sha1 from 'js-sha1';
     import {sha256} from 'js-sha256';
     import {sha512} from 'js-sha512';
+    // import {sha384} from '../../assets/js/sha384';
     export default {
         name: 'hash',
         components: {
