@@ -27,7 +27,7 @@
             calcSRI() {
                 this.$axios.$get(this.input).then(result => {
                     let sha256result = sha256(this.input)
-                    this.result = `<script src="https://unpkg.com/vue@2.5.21/dist/vue.js" integrity="${sha256result}" crossorigin="anonymous"><\/script>`;
+                    this.result = `<script src="${this.input}" integrity="sha256-${sha256result}" crossorigin="anonymous"><\/script>`;
 
                 })
 
