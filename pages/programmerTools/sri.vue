@@ -13,6 +13,7 @@
      * @date: 19-1-25
      */
     import { sha256 } from 'js-sha256'
+    import { Base64 } from 'js-base64'
 
     export default {
         name: 'sri',
@@ -27,6 +28,7 @@
             calcSRI() {
                 this.$axios.$get(this.input).then(result => {
                     let sha256result = sha256(this.input)
+                    sha256result = Base64.encode(sha256result)
                     this.result = `<script src="${this.input}" integrity="sha256-${sha256result}" crossorigin="anonymous"><\/script>`;
 
                 })
