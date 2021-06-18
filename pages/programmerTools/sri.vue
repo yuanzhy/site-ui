@@ -12,9 +12,6 @@
      * @author: yuanzhy
      * @date: 19-1-25
      */
-    import { sha256 } from 'js-sha256'
-    import { Base64 } from 'js-base64'
-
     export default {
         name: 'sri',
         data() {
@@ -25,14 +22,17 @@
             }
         },
         methods: {
-            calcSRI() {
+            async calcSRI() {
                 this.$axios.$get(this.input).then(result => {
-                    let sha256result = sha256(this.input)
-                    sha256result = Base64.encode(sha256result)
-                    this.result = `<script src="${this.input}" integrity="sha256-${sha256result}" crossorigin="anonymous"><\/script>`;
-
-                })
-
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(result);
+                    crypto.subtle.digest("SHA-384", data).then(digest => {
+                        const base64string = btoa(
+                            String.fromCharCode(...new Uint8Array(digest))
+                        );
+                        this.result = `<script src="${this.input}" integrity="sha384-${base64string}" crossorigin="anonymous"><\/script>`;
+                    });
+                });
             }
         },
         created() {
